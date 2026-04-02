@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nabil Match Center</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="bg-grid"></div>
+  <div class="bg-glow glow-1"></div>
+  <div class="bg-glow glow-2"></div>
+  <main class="app-shell">
+    <section class="hero neon-card">
+      <div>
+        <div class="eyebrow">FOOT • LIVE • RAJA • GAMING</div>
+        <h1>Nabil Match Center</h1>
+        <p>Scores live, ambiance gaming, focus Raja Casablanca et gros matchs du jour.</p>
+      </div>
+      <div class="hero-side">
+        <div class="raja-badge">RAJA 💚</div>
+        <div class="live-chip">LIVE MODE</div>
+      </div>
+    </section>
+
+    <section class="top-grid">
+      <div class="neon-card spotlight">
+        <div class="section-head">
+          <h2>Match mis en avant</h2>
+          <span class="status live">LIVE</span>
+        </div>
+        <div class="featured-match">
+          <div class="team-block">
+            <div class="team-name">Raja Casablanca</div>
+            <div class="score">2</div>
+          </div>
+          <div class="match-center">
+            <div class="minute">68'</div>
+            <div class="vs">VS</div>
+            <div class="competition">Botola Pro</div>
+          </div>
+          <div class="team-block">
+            <div class="team-name">Wydad</div>
+            <div class="score">1</div>
+          </div>
+        </div>
+        <div class="subline">Prototype visuel avec structure prête pour les résultats live.</div>
+      </div>
+
+      <div class="neon-card stats-panel">
+        <h2>Dashboard</h2>
+        <div class="stats-grid">
+          <div class="stat-card"><span>Matchs live</span><strong>6</strong></div>
+          <div class="stat-card"><span>Aujourd’hui</span><strong>18</strong></div>
+          <div class="stat-card"><span>Raja focus</span><strong>1</strong></div>
+          <div class="stat-card"><span>Goals live</span><strong>12</strong></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="content-grid">
+      <section class="neon-card">
+        <div class="section-head"><h2>Raja Casablanca</h2><span class="tag">Club favori</span></div>
+        <div class="raja-panel">
+          <div class="raja-card active">
+            <div class="match-title">Raja Casablanca vs Wydad</div>
+            <div class="mini-row"><span class="status live">LIVE</span><span>68'</span></div>
+            <div class="mini-score">2 - 1</div>
+          </div>
+          <div class="raja-card">
+            <div class="match-title">Raja Casablanca vs FAR Rabat</div>
+            <div class="mini-row"><span class="status soon">À venir</span><span>Sam 19:00</span></div>
+            <div class="mini-score">—</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="neon-card">
+        <div class="section-head"><h2>Matchs du jour</h2><span class="tag">Hot games</span></div>
+        <div id="matches" class="matches-list"></div>
+      </section>
+    </section>
+
+    <section class="neon-card">
+      <div class="section-head"><h2>Top affiches</h2><span class="tag">Big games</span></div>
+      <div class="cards-row" id="bigGames"></div>
+    </section>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>
