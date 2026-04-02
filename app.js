@@ -10,11 +10,16 @@ const fallbackMatches = [
   {home:'Man City', away:'Liverpool', score:'19:30', minute:'Soon', status:'SOON', comp:'Premier League'}
 ];
 
-const bigGames = [
+let bigGames = [
   {title:'Raja Casablanca Zone', info:'Focus club favori • ambiance Raja • grand écran match'},
   {title:'Top matchs du jour', info:'Les grosses affiches sélectionnées automatiquement'},
   {title:'Mode gaming foot', info:'Design sombre, néon vert, vibe console + stade'}
 ];
+
+function isLiveMatch(m){
+  const blob = `${m.status} ${m.minute}`.toLowerCase();
+  return /live|in progress|halftime|half-time|[0-9]+'/.test(blob) && !/scheduled|not started|canceled|postponed|ft|full time/.test(blob);
+}
 
 function renderMatches(list) {
   matchesEl.innerHTML = list.map(m => `
@@ -65,7 +70,7 @@ async function loadLiveScores() {
   try {
     const res = await fetch('https://site.api.espn.com/apis/site/v2/sports/soccer/all/scoreboard');
     const data = await res.json();
-    const events = (data.events || []).slice(0, 12).map(ev => {
+    const events = (data.events || []).map(ev => {
       const comp = ev.competitions?.[0];
       const teams = comp?.competitors || [];
       const home = teams.find(t => t.homeAway === 'home');
