@@ -1,5 +1,7 @@
 const matchesEl = document.getElementById('matches');
 const bigGamesEl = document.getElementById('bigGames');
+const rajaPanelEl = document.getElementById('rajaPanel');
+const featuredSublineEl = document.getElementById('featuredSubline');
 
 const fallbackMatches = [
   {home:'Raja Casablanca', away:'Wydad', score:'2 - 1', minute:"68'", status:'LIVE', comp:'Botola Pro'},
@@ -16,13 +18,38 @@ const bigGames = [
 
 function renderMatches(list) {
   matchesEl.innerHTML = list.map(m => `
-    <div class="match-card">
+    <div class="match-card ${/LIVE/i.test(m.status)?'live-row':''}">
       <div class="team">${m.home}</div>
       <div class="match-score">${m.score}</div>
       <div class="team">${m.away}</div>
       <div class="match-meta"><div>${m.minute}</div><div>${m.comp}</div><div>${m.status}</div></div>
     </div>
   `).join('');
+}
+
+function renderRajaPanel(matches){
+  const rajaMatches = matches.filter(m => /raja casablanca/i.test(m.home+' '+m.away));
+  if(!rajaPanelEl) return;
+  if(!rajaMatches.length){
+    rajaPanelEl.innerHTML = `
+      <div class="raja-card live-focus">
+        <div class="match-title">Raja Casablanca</div>
+        <div class="mini-row"><span class="status soon">Focus club</span><span>En veille</span></div>
+        <div class="mini-score">💚</div>
+      </div>
+      <div class="raja-card">
+        <div class="match-title">Supporters mode</div>
+        <div class="mini-row"><span class="status live pulse-live">RAJA</span><span>Nabil style</span></div>
+        <div class="mini-score">⚽</div>
+      </div>`;
+    return;
+  }
+  rajaPanelEl.innerHTML = rajaMatches.slice(0,2).map((m,i)=>`
+    <div class="raja-card ${i===0?'live-focus':''}">
+      <div class="match-title">${m.home} vs ${m.away}</div>
+      <div class="mini-row"><span class="status ${/LIVE/i.test(m.status)?'live pulse-live':'soon'}">${/LIVE/i.test(m.status)?'LIVE':'RAJA'}</span><span>${m.minute}</span></div>
+      <div class="mini-score">${m.score}</div>
+    </div>`).join('');
 }
 
 function renderBigGames() {
@@ -55,14 +82,26 @@ async function loadLiveScores() {
         comp: ev.league?.name || ev.shortName || 'Football'
       };
     });
-    if (events.length) renderMatches(events);
-    else renderMatches(fallbackMatches);
+    if (events.length) {
+      renderMatches(events);
+      renderRajaPanel(events);
+      if(featuredSublineEl){
+        const liveCount = events.filter(e => /LIVE|in progress|halftime|[0-9]+'/.test(e.status+' '+e.minute)).length;
+        featuredSublineEl.textContent = `${liveCount} matchs chauds en suivi • mise à jour auto toutes les 60 sec`;
+      }
+    } else {
+      renderMatches(fallbackMatches);
+    renderRajaPanel(fallbackMatches);
+      renderRajaPanel(fallbackMatches);
+    }
   } catch (e) {
     renderMatches(fallbackMatches);
+    renderRajaPanel(fallbackMatches);
   }
 }
 
 renderBigGames();
 renderMatches(fallbackMatches);
+renderRajaPanel(fallbackMatches);
 loadLiveScores();
 setInterval(loadLiveScores, 60000);
